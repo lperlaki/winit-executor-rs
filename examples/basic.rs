@@ -1,8 +1,6 @@
 use futures::stream::StreamExt;
-use winit::{window::WindowBuilder, event_loop::EventLoop};
-use winit_executor::EventLoopExecutor;
-
-
+use winit::{event_loop::EventLoop, window::WindowBuilder};
+use winit_executor::{event_producer, EventLoopExecutor};
 
 fn main() {
     let event_loop = EventLoop::new();
@@ -12,7 +10,7 @@ fn main() {
     let event_executor = EventLoopExecutor::from(event_loop);
 
     event_executor.run_with(async {
-        let mut events = winit_executor::window_event_producer();
+        let mut events = event_producer::window_event_producer();
         while let Some(e) = events.next().await {
             println!("{:?}", e);
         }
